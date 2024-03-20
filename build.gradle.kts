@@ -1,4 +1,3 @@
-import org.gradle.kotlin.dsl.withGroovyBuilder
 
 plugins {
     id("java")
@@ -40,15 +39,5 @@ tasks.test {
             "-javaagent:${agent.singleFile}"
     )
 }
-//tasks.withType<Test> {
-//    useTestNG {
-//        suites("src/test/resources/testng.xml")
-//        listeners.add("io.qameta.allure.testng.AllureTestNg")
-//    }
-//
-//}
-//tasks.withType(Wrapper::class) {
-//    gradleVersion = "8.5"
-//}
 
 
