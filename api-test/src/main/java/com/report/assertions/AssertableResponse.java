@@ -14,7 +14,7 @@ public class AssertableResponse {
     public AssertableResponse(Response response) {
         this.response = response;
     }
-@Step
+@Step("Api response should have {condition}")
     public AssertableResponse shouldHave(Condition condition){
         log.info("About to check condition {}", condition);
          condition.check(response);

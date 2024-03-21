@@ -38,6 +38,8 @@ dependencies {
     testImplementation(platform("io.qameta.allure:allure-bom:$allureVersion"))
     testImplementation("io.qameta.allure:allure-testng")
     testImplementation("org.slf4j:slf4j-simple:2.0.11")
+    implementation("com.epam.reportportal:agent-java-testng:5.0.11")
+    implementation("com.epam.reportportal:logger-java-logback:5.0.3")
 
 }
 

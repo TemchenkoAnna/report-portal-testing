@@ -9,12 +9,13 @@ import io.restassured.http.ContentType;
 import org.aeonbits.owner.ConfigFactory;
 import org.hamcrest.Matchers;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
 import static com.report.conditions.Conditions.bodyField;
 import static com.report.conditions.Conditions.statusCode;
 import static org.hamcrest.core.IsNot.not;
 
+@Listeners({com.epam.reportportal.testng.ReportPortalTestNGListener.class})
 public class DashboardsTest {
     public final DashboardApiService dashboardApiService  = new DashboardApiService();
     private final Faker faker = new Faker();
