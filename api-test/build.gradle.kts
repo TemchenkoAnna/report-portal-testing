@@ -34,6 +34,7 @@ dependencies {
     implementation("io.qameta.allure:allure-java-commons:2.26.0")
     implementation("io.qameta.allure:allure-rest-assured:2.26.0")
    // testImplementation("io.qameta.allure:allure-rest-assured")
+    implementation("com.jayway.jsonpath:json-path:2.9.0")
     testImplementation(platform("io.qameta.allure:allure-bom:$allureVersion"))
     testImplementation("io.qameta.allure:allure-testng")
     testImplementation("org.slf4j:slf4j-simple:2.0.11")
