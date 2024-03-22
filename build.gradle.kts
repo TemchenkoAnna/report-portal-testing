@@ -3,6 +3,7 @@ plugins {
     id("java")
     id("io.qameta.allure") version "2.11.2"
     id("io.qameta.allure-report") version "2.11.2"
+    id("io.freefair.lombok") version "8.6"
 }
 val allureVersion = "2.25.0"
 val aspectJVersion = "1.9.21"
@@ -20,7 +21,6 @@ repositories {
    }
 
 dependencies {
-    compileOnly ("org.projectlombok:lombok:1.18.30")
     testCompileOnly ("org.projectlombok:lombok:1.18.30")
     testAnnotationProcessor ("org.projectlombok:lombok:1.18.30")
     compileOnly ("org.projectlombok:lombok:1.18.30")
@@ -38,6 +38,10 @@ tasks.test {
     jvmArgs = listOf(
             "-javaagent:${agent.singleFile}"
     )
+}
+subprojects {
+    apply(plugin = "io.freefair.lombok")
+    apply(plugin = "java")
 }
 
 

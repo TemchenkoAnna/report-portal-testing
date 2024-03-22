@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "content": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "widgets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "widgetName": {
+                  "type": "string"
+                },
+                "widgetId": {
+                  "type": "integer"
+                },
+                "widgetType": {
+                  "type": "string"
+                },
+                "widgetSize": {
+                  "type": "object",
+                  "properties": {
+                    "width": {
+                      "type": "integer"
+                    },
+                    "height": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["width", "height"]
+                },
+                "widgetPosition": {
+                  "type": "object",
+                  "properties": {
+                    "positionX": {
+                      "type": "integer"
+                    },
+                    "positionY": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["positionX", "positionY"]
+                },
+                "widgetOptions": {
+                  "type": ["object", "boolean"]
+                }
+              },
+              "required": ["widgetName", "widgetId", "widgetType", "widgetSize", "widgetPosition", "widgetOptions"]
+            }
+          }
+        },
+        "required": ["owner", "id", "name", "widgets"]
+      }
+    },
+    "page": {
+      "type": "object",
+      "properties": {
+        "number": {
+          "type": "integer"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "totalElements": {
+          "type": "integer"
+        },
+        "totalPages": {
+          "type": "integer"
+        }
+      },
+      "required": ["number", "size", "totalElements", "totalPages"]
+    }
+  },
+  "required": ["content", "page"]
+}

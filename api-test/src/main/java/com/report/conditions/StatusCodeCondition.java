@@ -1,13 +1,11 @@
 package com.report.conditions;
 
 import io.restassured.response.Response;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class StatusCodeCondition implements Condition{
     private final int statusCode;
-
-    public StatusCodeCondition(int statusCode) {
-        this.statusCode = statusCode;
-    }
 
     @Override
     public void check(Response response) {

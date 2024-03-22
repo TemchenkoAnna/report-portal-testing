@@ -1,7 +1,4 @@
-
 plugins {
-    id("java")
-    id("io.freefair.lombok") version "8.6"
     id("io.qameta.allure-report") version "2.11.2"
 }
 val allureVersion = "2.25.0"
@@ -20,7 +17,6 @@ repositories {
 
 dependencies {
 
-    implementation("org.projectlombok:lombok:1.18.28")
     implementation ("io.rest-assured:rest-assured:5.4.0")
     testImplementation ("org.testng:testng:7.9.0")
     implementation ("com.fasterxml.jackson.core:jackson-databind:2.16.2")
@@ -40,6 +36,8 @@ dependencies {
     testImplementation("org.slf4j:slf4j-simple:2.0.11")
     implementation("com.epam.reportportal:agent-java-testng:5.0.11")
     implementation("com.epam.reportportal:logger-java-logback:5.0.3")
+    implementation("io.rest-assured:json-schema-validator:5.4.0")
+    implementation("commons-io:commons-io:2.15.1")
 
 }
 
