@@ -1,8 +1,10 @@
 package com.report.conditions;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
+
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.io.InputStream;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 
@@ -11,7 +13,9 @@ public class JsonSchemaValidation implements Condition {
 
     public JsonSchemaValidation(String filePath) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        json = mapper.writeValueAsString(mapper.readValue(Paths.get(filePath).toFile(), Object.class));
+        InputStream fileStream = this.getClass().getResourceAsStream(filePath);
+        Object fileObject = mapper.readValue(fileStream, Object.class);
+        json = mapper.writeValueAsString(fileObject);
     }
 
     @Override

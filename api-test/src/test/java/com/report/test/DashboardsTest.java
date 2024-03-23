@@ -1,21 +1,22 @@
 package com.report.test;
-
 import com.github.javafaker.Faker;
 import com.report.ProjectConfig;
 import com.report.conditions.Conditions;
+import com.report.conditions.responses.DashboardResponse;
+import com.report.conditions.responses.IdResponse;
 import com.report.payloads.DashboardPayload;
+import com.report.payloads.UpdateDashboardPayload;
 import com.report.services.DashboardApiService;
 import io.restassured.RestAssured;
 import org.aeonbits.owner.ConfigFactory;
 import org.hamcrest.Matchers;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
 import java.io.IOException;
-
 import static com.report.conditions.Conditions.bodyField;
 import static com.report.conditions.Conditions.statusCode;
 import static org.hamcrest.core.IsNot.not;
+import static org.testng.Assert.assertEquals;
 
 //@Listeners({com.epam.reportportal.testng.ReportPortalTestNGListener.class})
 public class DashboardsTest {
@@ -25,18 +26,18 @@ public class DashboardsTest {
 
     @BeforeClass
     public void setUp() {
-       RestAssured.baseURI = config.baseUrl()+config.projectName();
+        RestAssured.baseURI = config.baseUrl() + config.projectName();
     }
 
-    @Test
+    @Test(testName = "User can view all created dashboards")
     public void userCanGetAllDashboards() throws IOException {
-        String dashboardsJsonPath = "D:/Studying/report-portal/api-test/src/main/resources/dashboard-schema.json";
+        String dashboardsJsonPath = "/dashboard-schema.json";
         dashboardApiService.getAllDashboards()
                 .shouldHave(statusCode(200))
                 .shouldHave(Conditions.jsonSchema(dashboardsJsonPath));
     }
 
-    @Test
+    @Test(testName = "User can create dashboard")
     public void userCanCreateDashboard() {
         DashboardPayload dashboardPayload = new DashboardPayload()
                 .description(faker.commerce().department())
@@ -45,5 +46,63 @@ public class DashboardsTest {
         dashboardApiService.createDashboard(dashboardPayload)
                 .shouldHave(statusCode(201))
                 .shouldHave(bodyField("id", not(Matchers.emptyOrNullString())));
+    }
+
+    @Test(testName = "User can get dashboard by ID")
+    public void userCanGetDashboard() {
+        String description = faker.commerce().department();
+        String name = faker.commerce().productName();
+
+        DashboardPayload dashboardPayload = new DashboardPayload()
+                .description(description)
+                .name(name);
+        //create Dashboard and get ID
+        int id = dashboardApiService.createDashboard(dashboardPayload)
+                .asPojo(IdResponse.class)
+                .id();
+
+        //User can Get Dashboard by ID
+        DashboardResponse response = dashboardApiService.getDashboardById(id).asPojo(DashboardResponse.class);
+        assertEquals(response.description(), description);
+        assertEquals(response.name(), name);
+    }
+
+    @Test(testName = "User can get dashboard by ID")
+    public void userCanUpdateDashboard() {
+        String description = faker.commerce().department();
+        String name = faker.commerce().productName();
+
+        DashboardPayload dashboardPayload = new DashboardPayload()
+                .description("Some Description")
+                .name("Name to be updated");
+        //create Dashboard and get ID
+        int id = dashboardApiService.createDashboard(dashboardPayload)
+                .asPojo(IdResponse.class)
+                .id();
+
+        UpdateDashboardPayload updateDashboardPayload = new UpdateDashboardPayload()
+                .description(description)
+                .name(name);
+
+        dashboardApiService.updateDashboard(updateDashboardPayload, id)
+                .shouldHave(statusCode(200))
+                .shouldHave(bodyField("message", Matchers.is("Dashboard with ID = '"+ id +"' successfully updated")));
+    }
+    @Test(testName = "User can delete dashboard")
+    public void userCanDeleteDashboard() {
+        String description = faker.commerce().department();
+        String name = faker.commerce().productName();
+
+        DashboardPayload dashboardPayload = new DashboardPayload()
+                .description(description)
+                .name(name);
+        //create Dashboard and get ID
+        int id = dashboardApiService.createDashboard(dashboardPayload)
+                .asPojo(IdResponse.class)
+                .id();
+
+        dashboardApiService.deleteDashboard(id)
+                .shouldHave(statusCode(200))
+                .shouldHave(bodyField("message", Matchers.is("Dashboard with ID = '"+ id +"' successfully deleted.")));
     }
 }
