@@ -11,5 +11,5 @@ import lombok.experimental.Accessors;
 public class WidgetPayload{
 
 	@JsonProperty("addWidget")
-	private AddWidget addWidget;
+	private AddWidgetPayload addWidgetPayload;
 }

@@ -2,6 +2,7 @@ package com.report.services;
 
 import com.report.ProjectConfig;
 import com.report.assertions.AssertableResponse;
+import com.report.payloads.AddWidgetPayload;
 import com.report.payloads.DashboardPayload;
 import com.report.payloads.UpdateDashboardPayload;
 import io.qameta.allure.Step;
@@ -46,5 +47,13 @@ public class DashboardApiService extends ApiService{
                 .auth().oauth2(config.token())
                 .when()
                 .delete("dashboard/" + id));
+    }
+    @Step("User can add widget")
+    public AssertableResponse createWidget(AddWidgetPayload addWidgetPayload, int id) {
+        return new AssertableResponse(setUp()
+                .auth().oauth2(config.token())
+                .body(addWidgetPayload)
+                .when()
+                .put("dashboard/"+ id + "/add"));
     }
 }

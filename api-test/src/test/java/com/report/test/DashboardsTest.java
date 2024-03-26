@@ -4,8 +4,7 @@ import com.report.ProjectConfig;
 import com.report.conditions.Conditions;
 import com.report.conditions.responses.DashboardResponse;
 import com.report.conditions.responses.IdResponse;
-import com.report.payloads.DashboardPayload;
-import com.report.payloads.UpdateDashboardPayload;
+import com.report.payloads.*;
 import com.report.services.DashboardApiService;
 import io.restassured.RestAssured;
 import org.aeonbits.owner.ConfigFactory;
@@ -20,9 +19,9 @@ import static org.testng.Assert.assertEquals;
 
 //@Listeners({com.epam.reportportal.testng.ReportPortalTestNGListener.class})
 public class DashboardsTest {
-    private final DashboardApiService dashboardApiService  = new DashboardApiService();
+    private final DashboardApiService dashboardApiService = new DashboardApiService();
     private final Faker faker = new Faker();
-    ProjectConfig config =  ConfigFactory.create(ProjectConfig.class, System.getProperties());
+    ProjectConfig config = ConfigFactory.create(ProjectConfig.class, System.getProperties());
 
     @BeforeClass
     public void setUp() {
@@ -67,7 +66,7 @@ public class DashboardsTest {
         assertEquals(response.name(), name);
     }
 
-    @Test(testName = "User can get dashboard by ID")
+    @Test(testName = "User can update dashboard")
     public void userCanUpdateDashboard() {
         String description = faker.commerce().department();
         String name = faker.commerce().productName();
@@ -86,8 +85,9 @@ public class DashboardsTest {
 
         dashboardApiService.updateDashboard(updateDashboardPayload, id)
                 .shouldHave(statusCode(200))
-                .shouldHave(bodyField("message", Matchers.is("Dashboard with ID = '"+ id +"' successfully updated")));
+                .shouldHave(bodyField("message", Matchers.is("Dashboard with ID = '" + id + "' successfully updated")));
     }
+
     @Test(testName = "User can delete dashboard")
     public void userCanDeleteDashboard() {
         String description = faker.commerce().department();
@@ -103,6 +103,55 @@ public class DashboardsTest {
 
         dashboardApiService.deleteDashboard(id)
                 .shouldHave(statusCode(200))
-                .shouldHave(bodyField("message", Matchers.is("Dashboard with ID = '"+ id +"' successfully deleted.")));
+                .shouldHave(bodyField("message", Matchers.is("Dashboard with ID = '" + id + "' successfully deleted.")));
+    }
+
+    @Test(testName = "User can not create duplicate dashboard")
+    public void userCantCreateDuplicateDashboard() {
+        String name = faker.commerce().productName();
+
+        DashboardPayload dashboardPayload = new DashboardPayload()
+                .description(faker.commerce().department())
+                .name(name);
+        dashboardApiService.createDashboard(dashboardPayload)
+                .shouldHave(statusCode(201))
+                .shouldHave(bodyField("id", not(Matchers.emptyOrNullString())));
+
+        dashboardApiService.createDashboard(dashboardPayload)
+                .shouldHave(statusCode(409))
+                .shouldHave(bodyField("message", Matchers.is("Resource '" + name + "' already exists. You couldn't create the duplicate.")));
+    }
+
+    @Test(testName = "User can create a dashboard and add to widget to it")
+    public void userCanAddWidgetToDashboard() {
+        String widgetName = "LAUNCH STATISTICS AREA";
+        String widgetType = "statisticTrend";
+        int widgetId = 8;
+
+        DashboardPayload dashboardPayload = new DashboardPayload()
+                .description(faker.commerce().department())
+                .name(faker.commerce().productName());
+
+        int id = dashboardApiService.createDashboard(dashboardPayload)
+                .asPojo(IdResponse.class)
+                .id();
+
+        WidgetSize widgetSize = new WidgetSize()
+                .width(4)
+                .height(3);
+        WidgetPosition widgetPosition = new WidgetPosition()
+                .positionY(5)
+                .positionX(6);
+        AddWidget addWidget = new AddWidget()
+                .widgetId(widgetId)
+                .widgetName(widgetName)
+                .widgetType(widgetType)
+                .widgetSize(widgetSize)
+                .widgetPosition(widgetPosition);
+        AddWidgetPayload addWidgetPayload = new AddWidgetPayload()
+                .addWidget(addWidget);
+        dashboardApiService.createWidget(addWidgetPayload, id)
+                .shouldHave(statusCode(200))
+                .shouldHave(bodyField("message", Matchers.is("Widget with ID = '" + widgetId + "' was successfully added to the dashboard with ID = '" + id + "'")));
     }
 }

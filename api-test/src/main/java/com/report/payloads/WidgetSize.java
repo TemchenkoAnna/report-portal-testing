@@ -15,5 +15,4 @@ public class WidgetSize{
 
 	@JsonProperty("height")
 	private int height;
-
 }

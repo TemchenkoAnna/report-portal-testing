@@ -15,5 +15,4 @@ public class WidgetPosition{
 
 	@JsonProperty("positionX")
 	private int positionX;
-
 }
