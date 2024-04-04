@@ -36,11 +36,21 @@ dependencies {
 }
 
 tasks.test {
-    useTestNG()
-    jvmArgs = listOf(
-            "-javaagent:${agent.singleFile}"
-    )
-    useJUnitPlatform()
+    testLogging.showStandardStreams = true
+    if (project.hasProperty("useJUnit5")) {
+        useJUnitPlatform()
+        maxParallelForks = 2
+        forkEvery = 1
+    } else {
+        useTestNG()
+        jvmArgs = listOf(
+                "-javaagent:${agent.singleFile}"
+        )
+    }
+    testLogging{
+        showStandardStreams = true
+        events ("PASSED", "FAILED", "SKIPPED")
+    }
 }
 subprojects {
     apply(plugin = "io.freefair.lombok")
