@@ -31,6 +31,8 @@ dependencies {
     testImplementation(platform("io.qameta.allure:allure-bom:$allureVersion"))
     testImplementation("io.qameta.allure:allure-testng")
     testImplementation("org.slf4j:slf4j-simple:2.0.11")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
 }
 
 tasks.test {
@@ -38,6 +40,7 @@ tasks.test {
     jvmArgs = listOf(
             "-javaagent:${agent.singleFile}"
     )
+    useJUnitPlatform()
 }
 subprojects {
     apply(plugin = "io.freefair.lombok")
