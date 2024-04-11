@@ -38,16 +38,21 @@ dependencies {
     implementation("com.epam.reportportal:logger-java-logback:5.0.3")
     implementation("io.rest-assured:json-schema-validator:5.4.0")
     implementation("commons-io:commons-io:2.15.1")
-
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
+    testImplementation("io.qameta.allure:allure-junit5:2.26.0")
 }
 
 tasks.test {
-    useTestNG()
+    if (project.hasProperty("useJUnit5")) {
+        useJUnitPlatform()
+    } else {
+        useTestNG()
+    }
     testLogging{
         showStandardStreams = true
         events ("PASSED", "FAILED", "SKIPPED")
     }
-
 }
 plugins.withId("io.qameta.allure") {
     this.withGroovyBuilder {

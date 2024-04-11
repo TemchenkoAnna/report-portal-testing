@@ -31,13 +31,26 @@ dependencies {
     testImplementation(platform("io.qameta.allure:allure-bom:$allureVersion"))
     testImplementation("io.qameta.allure:allure-testng")
     testImplementation("org.slf4j:slf4j-simple:2.0.11")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
 }
 
 tasks.test {
-    useTestNG()
-    jvmArgs = listOf(
-            "-javaagent:${agent.singleFile}"
-    )
+    testLogging.showStandardStreams = true
+    if (project.hasProperty("useJUnit5")) {
+        useJUnitPlatform()
+        maxParallelForks = 2
+        forkEvery = 1
+    } else {
+        useTestNG()
+        jvmArgs = listOf(
+                "-javaagent:${agent.singleFile}"
+        )
+    }
+    testLogging{
+        showStandardStreams = true
+        events ("PASSED", "FAILED", "SKIPPED")
+    }
 }
 subprojects {
     apply(plugin = "io.freefair.lombok")
