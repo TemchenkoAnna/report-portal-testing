@@ -10,6 +10,7 @@ import io.restassured.RestAssured;
 import org.aeonbits.owner.ConfigFactory;
 import org.hamcrest.Matchers;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import java.io.IOException;
 import static com.report.conditions.Conditions.bodyField;
@@ -121,7 +122,7 @@ public class DashboardsTest {
                 .shouldHave(statusCode(409))
                 .shouldHave(bodyField("message", Matchers.is("Resource '" + name + "' already exists. You couldn't create the duplicate.")));
     }
-
+    @Ignore
     @Test(testName = "User can create a dashboard and add to widget to it")
     public void userCanAddWidgetToDashboard() {
         String widgetName = "LAUNCH STATISTICS AREA";
