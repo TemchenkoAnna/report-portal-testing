@@ -28,13 +28,15 @@ jobs:
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
+      - name: Print token
+        run: echo "${{ secrets.TOKEN }}"
 
       - name: Build with Gradle
         run: ./gradlew build
-        with:
+        env:
           TOKEN: ${{ secrets.TOKEN }}
 
       - name: Test with Gradle
         run: ./gradlew test
-        with:
+        env:
           TOKEN: ${{ secrets.TOKEN }}
