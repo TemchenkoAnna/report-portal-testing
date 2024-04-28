@@ -29,7 +29,7 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
       - name: Print token
-        run: echo $TOKEN
+        run: echo "${{ secrets.TOKEN }}"
 
       - name: Build with Gradle
         run: ./gradlew build
