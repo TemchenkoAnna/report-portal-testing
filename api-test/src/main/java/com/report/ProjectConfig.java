@@ -13,6 +13,7 @@ public interface ProjectConfig extends Config {
     String projectName();
 
     boolean logging();
+    @Key("token")
     @DefaultValue("${env:TOKEN}")
     String token();
 }
