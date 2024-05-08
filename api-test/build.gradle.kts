@@ -41,6 +41,10 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
     testImplementation("io.qameta.allure:allure-junit5:2.26.0")
+    implementation("io.cucumber:cucumber-testng:7.16.1")
+    implementation("io.cucumber:cucumber-java:7.16.1")
+    implementation("io.cucumber:cucumber-core:7.16.1")
+    testImplementation(platform("io.cucumber:cucumber-bom:7.16.1"))
 }
 
 tasks.test {
