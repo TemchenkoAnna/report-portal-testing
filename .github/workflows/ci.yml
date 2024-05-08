@@ -31,10 +31,6 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew build
-        env:
-          TOKEN: ${{ secrets.TOKEN }}
 
       - name: Test with Gradle
         run: ./gradlew test
-        env:
-          TOKEN: ${{ secrets.TOKEN }}

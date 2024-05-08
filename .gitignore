@@ -7,6 +7,5 @@ build/
 *.iml
 *.ipr
 out/
-src/main/resources/secrets.properties
 
 

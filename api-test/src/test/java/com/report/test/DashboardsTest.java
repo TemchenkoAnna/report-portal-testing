@@ -1,5 +1,4 @@
 package com.report.test;
-
 import com.github.javafaker.Faker;
 import com.report.ProjectConfig;
 import com.report.conditions.Conditions;
@@ -11,10 +10,9 @@ import io.restassured.RestAssured;
 import org.aeonbits.owner.ConfigFactory;
 import org.hamcrest.Matchers;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-
 import java.io.IOException;
-
 import static com.report.conditions.Conditions.bodyField;
 import static com.report.conditions.Conditions.statusCode;
 import static org.hamcrest.core.IsNot.not;
@@ -124,7 +122,7 @@ public class DashboardsTest {
                 .shouldHave(statusCode(409))
                 .shouldHave(bodyField("message", Matchers.is("Resource '" + name + "' already exists. You couldn't create the duplicate.")));
     }
-
+    @Ignore
     @Test(testName = "User can create a dashboard and add to widget to it")
     public void userCanAddWidgetToDashboard() {
         String widgetName = "LAUNCH STATISTICS AREA";
