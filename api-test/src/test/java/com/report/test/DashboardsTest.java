@@ -10,7 +10,6 @@ import io.restassured.RestAssured;
 import org.aeonbits.owner.ConfigFactory;
 import org.hamcrest.Matchers;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import java.io.IOException;
 import static com.report.conditions.Conditions.bodyField;
@@ -46,6 +45,37 @@ public class DashboardsTest {
         dashboardApiService.createDashboard(dashboardPayload)
                 .shouldHave(statusCode(201))
                 .shouldHave(bodyField("id", not(Matchers.emptyOrNullString())));
+    }
+    @Test(testName = "User can not create dashboard with invalid data")
+    public void userCantCreateDashboardWithInvalidData() {
+        DashboardPayload dashboardPayload = new DashboardPayload()
+                .description(faker.commerce().department())
+                .name("");
+
+        dashboardApiService.createDashboard(dashboardPayload)
+                .shouldHave(statusCode(400))
+                .shouldHave(bodyField("message", Matchers.is("Incorrect Request. [Field 'name' should not contain only white spaces and shouldn't be empty. Field 'name' should have size from '3' to '128'.] ")));
+    }
+
+    @Test(testName = "User can not create dashboard with duplicate name")
+    public void userCantCreateDashboardWithDuplicateName() {
+        String name = faker.commerce().productName();
+
+        DashboardPayload dashboardPayload = new DashboardPayload()
+                .description(faker.commerce().department())
+                .name(name);
+
+        dashboardApiService.createDashboard(dashboardPayload)
+                .shouldHave(statusCode(201))
+                .shouldHave(bodyField("id", not(Matchers.emptyOrNullString())));
+
+        DashboardPayload dashboardPayloadDuplicate = new DashboardPayload()
+                .description(faker.commerce().department())
+                .name(name);
+
+        dashboardApiService.createDashboard(dashboardPayloadDuplicate)
+                .shouldHave(statusCode(409))
+                .shouldHave(bodyField("message", Matchers.is("Resource '" + name + "' already exists. You couldn't create the duplicate.")));
     }
 
     @Test(testName = "User can get dashboard by ID")
@@ -88,6 +118,16 @@ public class DashboardsTest {
                 .shouldHave(statusCode(200))
                 .shouldHave(bodyField("message", Matchers.is("Dashboard with ID = '" + id + "' successfully updated")));
     }
+    @Test(testName = "User can not update non-existing dashboard")
+    public void userCantUpdateNonExistingDashboard() {
+        UpdateDashboardPayload updateDashboardPayload = new UpdateDashboardPayload()
+                .description(faker.commerce().department())
+                .name(faker.commerce().productName());
+
+        dashboardApiService.updateDashboard(updateDashboardPayload, 9999)
+                .shouldHave(statusCode(404))
+                .shouldHave(bodyField("message", Matchers.is("Dashboard with ID '9999' not found on project 'default_personal'. Did you use correct Dashboard ID?")));
+    }
 
     @Test(testName = "User can delete dashboard")
     public void userCanDeleteDashboard() {
@@ -107,6 +147,14 @@ public class DashboardsTest {
                 .shouldHave(bodyField("message", Matchers.is("Dashboard with ID = '" + id + "' successfully deleted.")));
     }
 
+    @Test(testName = "User can not delete non-existing dashboard")
+    public void userCantDeleteNonExistingDashboard() {
+        int id = 9999;
+        dashboardApiService.deleteDashboard(id)
+                .shouldHave(statusCode(404))
+                .shouldHave(bodyField("message", Matchers.is("Dashboard with ID '" + id + "' not found on project 'default_personal'. Did you use correct Dashboard ID?")));
+    }
+
     @Test(testName = "User can not create duplicate dashboard")
     public void userCantCreateDuplicateDashboard() {
         String name = faker.commerce().productName();
@@ -122,7 +170,7 @@ public class DashboardsTest {
                 .shouldHave(statusCode(409))
                 .shouldHave(bodyField("message", Matchers.is("Resource '" + name + "' already exists. You couldn't create the duplicate.")));
     }
-    @Ignore
+
     @Test(testName = "User can create a dashboard and add to widget to it")
     public void userCanAddWidgetToDashboard() {
         String widgetName = "LAUNCH STATISTICS AREA";
