@@ -1,9 +1,10 @@
-
 plugins {
     id("java")
     id("io.qameta.allure") version "2.11.2"
     id("io.qameta.allure-report") version "2.11.2"
     id("io.freefair.lombok") version "8.6"
+    id("org.sonarqube") version "5.0.0.4638"
+
 }
 val allureVersion = "2.25.0"
 val aspectJVersion = "1.9.21"
@@ -43,6 +44,9 @@ tasks.test {
         forkEvery = 1
     } else {
         useTestNG()
+        reports {
+            junitXml.required.set(true)
+        }
         jvmArgs = listOf(
                 "-javaagent:${agent.singleFile}"
         )
@@ -56,5 +60,23 @@ subprojects {
     apply(plugin = "io.freefair.lombok")
     apply(plugin = "java")
 }
+sonarqube {
+    properties {
 
+                property("sonar.modules", "ui-test,api-test")
 
+                property("ui-tests.sonar.host.url", "http://localhost:9000")
+                property("ui-tests.sonar.login", "admin")
+                property("ui-tests.sonar.password", "admin40")
+                property("ui-tests.sonar.sources", "ui-tests/src/main/java")
+                property("ui-tests.sonar.tests", "ui-tests/src/test/java")
+                property("ui-tests.sonar.java.binaries", "ui-tests/build/classes/java/main")
+
+                property("api-test.sonar.host.url", "http://localhost:9000")
+                property("api-test.sonar.login", "admin")
+                property("api-test.sonar.password", "admin40")
+                property("api-test.sonar.sources", "api-test/src/main/java")
+                property("api-test.sonar.tests", "api-test/src/test/java")
+                property("api-test.sonar.java.binaries", "api-test/build/classes/java/main")
+            }
+        }
