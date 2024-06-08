@@ -10,13 +10,13 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh './gradlew.bat build -x test'
+                bat './gradlew.bat build -x test' 
             }
         }
 
         stage('Test') {
             steps {
-                sh './gradlew.bat api-test:test'
+                bat './gradlew.bat api-test:test'
             }
         }
     }
