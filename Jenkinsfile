@@ -1,11 +1,5 @@
 pipeline {
-     agent { docker { image 'openjdk:17' } }
-       triggers { pollSCM('H 4 * * *') }
-
-    tools {
-        jdk 'jdk17'
-        gradle 'Gradle'
-    }
+ agent any
 
     stages {
         stage('Checkout') {
