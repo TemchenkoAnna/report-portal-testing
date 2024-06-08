@@ -11,6 +11,7 @@ import org.aeonbits.owner.ConfigFactory;
 import org.hamcrest.Matchers;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Ignore;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import java.io.IOException;
 import static com.report.conditions.Conditions.bodyField;
@@ -18,7 +19,7 @@ import static com.report.conditions.Conditions.statusCode;
 import static org.hamcrest.core.IsNot.not;
 import static org.testng.Assert.assertEquals;
 
-//@Listeners({com.epam.reportportal.testng.ReportPortalTestNGListener.class})
+@Listeners({com.epam.reportportal.testng.ReportPortalTestNGListener.class})
 public class DashboardsTest {
     private final DashboardApiService dashboardApiService = new DashboardApiService();
     private final Faker faker = new Faker();
