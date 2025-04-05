@@ -28,3 +28,5 @@ Lombok for reducing boilerplate Java code
 SonarQube for static code analysis and code quality checks
 Logback for logging
 Allure for test result visualization
+
+Fill in the appropriate values for your environment in the `config.properties` and `test-data.properties` files.
