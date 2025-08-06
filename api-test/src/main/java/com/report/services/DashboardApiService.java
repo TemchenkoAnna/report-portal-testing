@@ -41,7 +41,7 @@ public class DashboardApiService extends ApiService{
                 .when()
                 .put("dashboard/"+ id));
     }
-    @Step("User can update dashboard")
+    @Step("User can delete dashboard")
     public AssertableResponse deleteDashboard(int id) {
         return new AssertableResponse(setUp()
                 .auth().oauth2(config.token())
