@@ -14,14 +14,14 @@ public class CapabilitiesCreator {
     public static DesiredCapabilities getChromeDesiredCapabilities() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setBrowserName("chrome");
-        capabilities.setPlatform(Platform.WIN10);
+        capabilities.setPlatform(Platform.WIN11);
         return capabilities;
     }
 
     public static DesiredCapabilities getFirefoxDesiredCapabilities() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setBrowserName("firefox");
-        capabilities.setPlatform(Platform.WIN10);
+        capabilities.setPlatform(Platform.WIN11);
         return capabilities;
     }
 

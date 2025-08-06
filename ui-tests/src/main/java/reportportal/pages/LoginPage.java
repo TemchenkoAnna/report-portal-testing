@@ -7,7 +7,7 @@ import reportportal.components.PopUp;
 import reportportal.components.TextField;
 
 public class LoginPage extends BasePage {
-    public static final String ESSENTIAL_URL = "https://demo.reportportal.io/";
+    public static final String ESSENTIAL_URL = "http://localhost:8080/ui/";
     private final By loginTextFieldLocator = By.xpath("//input[@name='login']");
     private final By passwordFieldLocator = By.xpath("//input[@name='password']");
     private final By loginButtonLocator = By.xpath("//button[@type='submit']");
