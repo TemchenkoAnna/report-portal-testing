@@ -35,7 +35,7 @@ public class DashboardPage extends BasePage {
                 .addFilter(filterName, launchName)
                 .clickNextStep()
                 .clickAdd();
-       // wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'"+launchName+"')]")));
+       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'"+filterName+"')]")));
         return this;
     }
 

@@ -1,7 +1,6 @@
 package com.report.test;
 import com.github.javafaker.Faker;
 import com.report.ProjectConfig;
-import com.report.conditions.Conditions;
 import com.report.conditions.responses.DashboardResponse;
 import com.report.conditions.responses.IdResponse;
 import com.report.payloads.*;
@@ -15,6 +14,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import static com.report.conditions.Conditions.bodyField;
 import static com.report.conditions.Conditions.statusCode;
+import static com.report.conditions.Conditions.jsonSchema;
 import static org.hamcrest.core.IsNot.not;
 import static org.testng.Assert.assertEquals;
 
@@ -34,7 +34,7 @@ public class DashboardsTest {
         String dashboardsJsonPath = "/dashboard-schema.json";
         dashboardApiService.getAllDashboards()
                 .shouldHave(statusCode(200))
-                .shouldHave(Conditions.jsonSchema(dashboardsJsonPath));
+                .shouldHave(jsonSchema(dashboardsJsonPath));
     }
 
     @Test(testName = "User can create dashboard")
