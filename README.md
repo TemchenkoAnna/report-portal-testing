@@ -1,19 +1,21 @@
-My Java Automation Project
 This is a Java-based project designed to learn and demonstrate API testing and Selenium UI testing. The project is built using Gradle for dependency management and build automation.
 
-This is a Java-based project designed to learn and demonstrate API testing and Selenium UI testing. The project is built using Gradle for dependency management and build automation.
 ## Running Tests
 To run tests you need to deploy application locally using Docker. Instructions are here: https://reportportal.io/installation/
 Fill in the appropriate values for your environment in the `config.properties` and `test-data.properties` files.
 This project contains multiple modules with separate scopes of testing. To run tests for a specific module, use the Gradle wrapper.
 
 ### API Tests
-To run the `api-test` module tests:
+To run the `api-test` module tests, use:
+```
 ./gradlew api-test:test
-###  UI Tests
-To run the `ui-tests` module tests:
-./gradlew ui-tests:test
+```
 
+###  UI Tests
+To run the `ui-tests` module tests, use:
+```
+./gradlew ui-tests:test
+```
 Features
 API Testing: Automates RESTful API validations using testing framework RestAssured.
 Selenium Testing: Automates browser-based UI testing using Selenium WebDriver.
