@@ -1,11 +1,18 @@
 My Java Automation Project
 This is a Java-based project designed to learn and demonstrate API testing and Selenium UI testing. The project is built using Gradle for dependency management and build automation.
 
-
-Creating a README.md file for your Java-based project that uses Gradle and involves API and Selenium testing can help others (and yourself) understand the purpose and structure of the project. A good README.md serves as the entry point to your project and can guide contributors and users through the setup and usage of your project. Below is an example README.md template, which you can tailor to your specific project:
-
-My Java Automation Project
 This is a Java-based project designed to learn and demonstrate API testing and Selenium UI testing. The project is built using Gradle for dependency management and build automation.
+## Running Tests
+To run tests you need to deploy application locally using Docker. Instructions are here: https://reportportal.io/installation/
+Fill in the appropriate values for your environment in the `config.properties` and `test-data.properties` files.
+This project contains multiple modules with separate scopes of testing. To run tests for a specific module, use the Gradle wrapper.
+
+### API Tests
+To run the `api-test` module tests:
+./gradlew api-test:test
+###  UI Tests
+To run the `ui-tests` module tests:
+./gradlew ui-tests:test
 
 Features
 API Testing: Automates RESTful API validations using testing framework RestAssured.
@@ -29,4 +36,3 @@ SonarQube for static code analysis and code quality checks
 Logback for logging
 Allure for test result visualization
 
-Fill in the appropriate values for your environment in the `config.properties` and `test-data.properties` files.
