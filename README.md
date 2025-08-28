@@ -7,13 +7,13 @@ This project contains multiple modules with separate scopes of testing. To run t
 
 ### API Tests
 To run the `api-test` module tests, use:
-```
+```bash
 ./gradlew api-test:test
 ```
 
 ###  UI Tests
 To run the `ui-tests` module tests, use:
-```
+```bash
 ./gradlew ui-tests:test
 ```
 Features
